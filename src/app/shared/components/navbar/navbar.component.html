@@ -1,0 +1,71 @@
+<nav
+    class="fixed w-full z-50 top-0 start-0 border-b border-white/5 bg-black/20 backdrop-blur-md transition-all duration-300">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        
+        <a href="#home" class="flex items-center space-x-3 group">
+            <div
+                class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:rotate-6 transition-all duration-500 border-2 border-blue-400/80 shadow-[0_0_15px_rgba(96,165,250,0.6)] group-hover:shadow-[0_0_30px_rgba(96,165,250,1)] bg-blue-950/20 backdrop-blur-sm">
+                <span
+                    class="text-blue-300 font-black text-lg drop-shadow-[0_0_8px_rgba(96,165,250,0.9)]">&lt;/&gt;</span>
+            </div>
+
+            <span
+                class="self-center text-2xl font-bold whitespace-nowrap bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                Erik<span class="text-white"> Lujan</span>
+            </span>
+        </a>
+
+        <button (click)="toggleMenu()" type="button"
+            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-white/10 transition-colors">
+            <span class="sr-only">Abrir menú</span>
+            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path *ngIf="!isMobileMenuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16" />
+                <path *ngIf="isMobileMenuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="hidden w-full md:block md:w-auto">
+            <ul
+                class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+
+                <li *ngFor="let item of items">
+                    <a [href]="item.link" class="relative block py-2 px-3 transition-all duration-300 group" [ngClass]="{
+                           'text-blue-400 font-bold drop-shadow-[0_0_8px_rgba(96,165,250,0.6)]': activeSection() === item.id,
+                           'text-gray-300 hover:text-white': activeSection() !== item.id
+                       }">
+
+                        {{ item.name }}
+
+                        <span
+                            class="absolute inset-x-0 bottom-0 h-0.5 bg-blue-500 transform transition-transform duration-300 ease-out"
+                            [ngClass]="activeSection() === item.id ? 'scale-x-100 shadow-[0_0_10px_#3b82f6]' : 'scale-x-0 group-hover:scale-x-100'">
+                        </span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div *ngIf="isMobileMenuOpen()"
+            class="fixed inset-0 z-40 bg-black/95 backdrop-blur-2xl md:hidden flex flex-col justify-center items-center h-screen overflow-hidden">
+            <ul class="flex flex-col items-center space-y-8 text-center animate-fade-in-up">
+                <li *ngFor="let item of items; let i = index" class="opacity-0 animate-slide-in-left"
+                    [style.animation-delay]="(i * 150) + 'ms'">
+
+                    <a [href]="item.link" (click)="closeMenu()"
+                        class="relative group block px-4 py-2 text-5xl font-thin tracking-wider transition-all duration-500"
+                        [ngClass]="activeSection() === item.id ? 'text-blue-400 scale-110 font-normal drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'text-gray-400 hover:text-white'">
+
+                        <span class="relative z-10">{{ item.name }}</span>
+
+                        <span *ngIf="activeSection() === item.id"
+                            class="absolute -inset-4 bg-blue-500/10 rounded-full blur-xl -z-10"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
